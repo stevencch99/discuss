@@ -1,6 +1,16 @@
 /* This file is for your main application css. */
 @import "./phoenix.css";
 
+span.help-block {
+  color: #faa;
+  text-transform: capitalize;
+}
+
+.form-group {
+  position: relative;
+  margin-bottom: 25px;
+}
+
 /* Alerts and form errors */
 .alert {
   padding: 15px;
