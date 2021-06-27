@@ -36,6 +36,7 @@ config :ueberauth, Ueberauth,
     github: { Ueberauth.Strategy.Github, [] }
   ]
 
-  config :ueberauth, Ueberauth.Strategy.Github.OAuth,
-    client_id: "08e6f12f4c9e67b19bea",
-    client_secret: Application.get_env(:discuss, :gh_api_key)
+config :ueberauth, Ueberauth.Strategy.Github.OAuth,
+  client_id: "08e6f12f4c9e67b19bea",
+  # client_secret: Application.get_env(:discuss, :gh_api_key)
+  client_secret: System.get_env("DISCUSS_GITHUB_CLIENT_SECRET")
