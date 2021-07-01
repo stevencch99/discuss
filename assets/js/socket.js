@@ -67,6 +67,9 @@ const createSocket = (topicId) => {
       console.log('Unable to join', resp);
     });
 
+  // when receiving `comments:${topicId}:new` event, the Event object will call...
+  channel.on(`comments:${topicId}:new`, renderComment);
+
   document.querySelector('button').addEventListener('click', () => {
     const content = document.querySelector('textarea').value;
 
@@ -75,17 +78,27 @@ const createSocket = (topicId) => {
 };
 
 function renderComments(comments) {
-  const renderedComments = comments.map(comment => {
-    return `
-      <li class="collection-item">
-        ${comment.content}
-      </li>
-    `;
-  })
+  const renderedComments = comments.map((comment) => {
+    return commentTemplate(comment);
+  });
 
   console.log(renderedComments);
   document.querySelector('.collection').innerHTML = renderedComments.join('');
 }
+
+function renderComment(event) {
+  const renderedComment = commentTemplate(event.comment);
+
+  document.querySelector('.collection').innerHTML += renderedComment;
+};
+
+function commentTemplate(comment) {
+  return `
+    <li class="collection-item">
+      ${comment.content}
+    </li>
+  `;
+};
 
 // add the custom function to globally
 window.createSocket = createSocket;
