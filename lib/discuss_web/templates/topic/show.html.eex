@@ -1,2 +1,8 @@
 <%= @topic.title %>
-<button>Ping!</button>
+<%# only for demo purpose %>
+<%# <button>Ping!</button> %>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    window.createSocket(<%= @topic.id %>)
+  })
+</script>
