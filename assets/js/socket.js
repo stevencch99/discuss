@@ -6,9 +6,9 @@
 //
 // Pass the token on params as below. Or remove it
 // from the params if you are not using authentication.
-import {Socket} from "phoenix"
+import { Socket } from 'phoenix';
 
-let socket = new Socket("/socket", {params: {token: window.userToken}})
+let socket = new Socket('/socket', { params: { token: window.userToken } });
 
 // When you connect, you'll often need to authenticate the client.
 // For example, imagine you have an authentication plug, `MyAuth`,
@@ -52,14 +52,20 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 //     end
 //
 // Finally, connect to the socket:
-socket.connect()
+socket.connect();
 
 // Now that you are connected, you can join channels with a topic:
 const createSocket = (topicId) => {
   let channel = socket.channel(`comments:${topicId}`, {});
-  channel.join()
-    .receive("ok", resp => { console.log("Joined successfully", resp); })
-    .receive("error", resp => { console.log("Unable to join", resp); });
+  channel
+    .join()
+    .receive('ok', (resp) => {
+      console.log('Joined successfully');
+      renderComments(resp.comments);
+    })
+    .receive('error', (resp) => {
+      console.log('Unable to join', resp);
+    });
 
   document.querySelector('button').addEventListener('click', () => {
     const content = document.querySelector('textarea').value;
@@ -68,11 +74,18 @@ const createSocket = (topicId) => {
   });
 };
 
-// Just for demo
-// document.querySelector('button').addEventListener('click', function() {
-//   channel.push('comment:hello', { hi: 'there!' });
-// });
-// export default socket
+function renderComments(comments) {
+  const renderedComments = comments.map(comment => {
+    return `
+      <li class="collection-item">
+        ${comment.content}
+      </li>
+    `;
+  })
+
+  console.log(renderedComments);
+  document.querySelector('.collection').innerHTML = renderedComments.join('');
+}
 
 // add the custom function to globally
 window.createSocket = createSocket;
