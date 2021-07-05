@@ -61,6 +61,7 @@ const createSocket = (topicId) => {
     .join()
     .receive('ok', (resp) => {
       console.log('Joined successfully');
+      console.log(resp.comments);
       renderComments(resp.comments);
     })
     .receive('error', (resp) => {
@@ -93,9 +94,15 @@ function renderComment(event) {
 };
 
 function commentTemplate(comment) {
+  let email = 'Anonymous';
+  if (comment.user) {
+    email = comment.user.email;
+  }
+
   return `
     <li class="collection-item">
       ${comment.content}
+      <div class="secondary-content">${email}</div>
     </li>
   `;
 };

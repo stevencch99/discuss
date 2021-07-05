@@ -3,7 +3,7 @@ defmodule Discuss.Comment do
   import Ecto.Changeset
 
   # If you own the struct, you can derive the implementation specifying which fields should be encoded to JSON:
-  @derive {Jason.Encoder, only: [:content]}
+  @derive {Jason.Encoder, only: [:content, :user]}
 
   schema "comments" do
     field :content, :string

@@ -10,9 +10,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script>
-      <%= if @conn.assigns.user do %>
-        window.userToken = "<%= Phoenix.Token.sign(DiscussWeb.Endpoint, "key", @conn.assigns.user.id) %>"
-      <% end %>
+        <% user_id = if @conn.assigns.user, do: @conn.assigns.user.id, else: 999 %>
+        console.log(<%= user_id %>);
+        window.userToken = "<%= Phoenix.Token.sign(DiscussWeb.Endpoint, "key", user_id) %>"
     </script>
   </head>
   <body>
